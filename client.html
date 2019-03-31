@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>前端例子</title>
+</head>
+
+<body>
+  <div>
+    <p>注意前端映入"https://cdn.bootcss.com/socket.io/2.1.0/socket.io.js"</p>
+    <p>看控制台！</p>
+  </div>
+  <script src="https://cdn.bootcss.com/socket.io/2.1.0/socket.io.js"></script>
+  <script>
+    window.onload = function () {
+      const socket = io('http://127.0.0.1:7001/', { 
+        // 实际使用中可以在这里传递参数
+        query: {
+          user:'motherfuck'
+        },
+        transports: ['websocket'] //固定格式表示用web长连接
+      });
+      socket.on('connect', () => {
+        console.log('connect!');
+        socket.emit('chat', 'hello world!');
+      });
+
+      socket.on('res', msg => {
+        console.log('res from server: %s!', msg);
+      });
+      window.socket = socket;
+    };
+  </script>
+</body>
+
+</html>
